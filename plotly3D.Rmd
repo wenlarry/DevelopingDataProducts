@@ -1,0 +1,16 @@
+---
+title: "plotly3D"
+author: "wenlarry"
+date: "2/14/2017"
+output: html_document
+---
+
+```{r, echo=FALSE, message=FALSE} 
+library(plotly)
+set.seed(2016-07-21)
+temp<-rnorm(100,mean=28,sd=6)
+pressure<-rnorm(100)
+dtime<-1:100
+plot_ly(x=~temp,y=~pressure,z=~dtime,
+        type="scatter3d", color=~temp)
+```
