@@ -1,0 +1,121 @@
+---
+title: "TopTribesMaps"
+author: "wenlarry"
+date: "2/14/2017"
+output: html_document
+---
+#Preamble
+
+We are into the Fourth Industrial Revolution that is characterized by the convergence of digital, physical, and biological technologies. This transformation is about the transition to new systems that are being built on the infrastructure of the digital revolution.
+
+These emerging technologies will fundamentally alter the way we produce, consume, communicate and interact with each other.
+
+The global nature of this revolution also poses new threats relating to their disruptions to labor markets, income equality, geopoltical security, ethics and social values.
+
+(Adapted from Klaus Schwab, The Fourth Industrial Revolution, 2016)
+
+The maps attempt to depict the nations that will be the winners in the Fourth Industrial Revolution based on the hypothesis that:
+
+ + the top 8 nations in the 2016/17 Global Competitiveness Index
+   shall continue on their trajectories, with some dropouts 
+   to be supplanted by other nations
+  
+ + the future winners have to become the most innovative nations and
+   secure high rankings in the Global Innovation Index
+   
+Today, the Global Innovation Index is a sub-index of the Global Competitiveness Index. It is just one of the twelve pillars that the World Economic Forum (WEF) scores nations and use it for their aggregate scores in compiling its Global Competitiveness Index for nations.
+
+The Global Innovation Index deserves greater attention as we are in the cusp of the Fourth Industrial Revolution.
+
+#Data Process
+
+The rankings of nations are in the World Economic Forum (WEF)  2016/17 Global Competitiveness Index and the Global Innnovation Index that is a sub-index. 
+
+Extract from:  
+
++ reports.weforum.org/global-competitiveness-index/  
+        
+The geopoints used in constructing the maps are obtained from:
+        
++ www.geonames.org/
+        
+(The maps embed only the top 8 nations in the respective indices)  
+
+The loaded libraries are 'leaflet' and 'maps' and the data (i.e. the raw map) is 'worldMapEnv' from the R maps package. All the interactive maps are created with 'leaflet'. 
+
+
+```{r,}
+library(leaflet)
+library(maps) 
+data("worldMapEnv")
+rawMap<-  leaflet(data) %>% addTiles
+```
+
+#MAP 1 (8 Top Global Competitive Nations - 2016/17)
+
+Top 8 nations are in the 'popups'
+
+```{r, }
+gcMap<-rawMap
+gcMap%>%
+ addMarkers(lng=-0.530,lat=51.3030,popup="UK")%>%    
+ addMarkers(lng=8.330,lat=47.22,popup="Switzerland") %>%     
+ addMarkers(lng=103.510,lat=1.1722,popup="Singapore")%>%       
+ addMarkers(lng=-77.210,lat=38.5342,popup="USA")%>%      
+ addMarkers(lng=13.2437,lat=52.3127,popup="Germany") %>%
+ addMarkers(lng=4.5332,lat=52.2226,popup="Netherlands")%>%
+ addMarkers(lng=18.353,lat=59.1957,popup="Sweden")%>%
+ addMarkers(lng=139.4130,lat=35.4122,popup="Japan") %>%
+
+ addLegend(position="topright",colors="blue" ,labels="Global   Competitiveness",opacity=0.6,title='Legend') 
+```
+
+#MAP 2 (8 Top Global Innovative Nations - 2016/17)
+
+Top 8 nations are in the 'popups'. The rectangle contains 2 nations , Finland and ISRAEL that have not been ranked among the top global 
+competitive nations and are not in MAP 1.
+
+It shows that 6 of the top 8 global competitive nations are also among the top 8 global innovation nations.
+
+
+```{r,} 
+giMap<-rawMap
+giMap%>%
+ addMarkers(8.330,47.33,popup="Switzerland") %>%
+ addMarkers(-77.210,38.5342,popup="USA")%>%
+ addMarkers(13.2437,52.3127,popup="Germany")%>%  
+ addMarkers(18.353,59.1957,popup="Sweden")%>%
+ addMarkers(139.4130,35.4122,popup="Japan")%>%
+ addMarkers(4.5332,52.2226,popup="Netherlands")%>%
+ addMarkers(24.567,60.1010,popup="Finland")%>%
+ addMarkers(35.1258,31.468,popup="Israel") %>%
+
+ addRectangles(lat1=60.1010,lng1=24.567,
+               lat2=31.468,lng2=35.1258)%>%
+        
+ addLegend(position="topright",colors="blue" ,labels="Global Innovation" ,opacity=0.6,title='Legend')  
+```
+
+
+#MAP 3 (2 Dropouts) 
+
+The 2 dropouts are UK and SINGAPORE. As they fail to achieve the top 8 global innovation rankings, it is forecasted that they will not become the top future movers and shakers of the Fourth Industrial Revolution. 
+
+The circles in the map identify these 2 'dropout' nations.
+
+
+```{r,} 
+dropouts<-rawMap
+dropouts%>%
+ addCircleMarkers(lat=51.3030,lng=-0.530)%>%
+ addCircleMarkers(lat=1.1722,lng=103.510)%>%
+
+ addLegend(position="topright",colors="blue",labels="Dropouts",
+           opacity=0.6, title='Legend') 
+```
+
+
+
+
+
+
