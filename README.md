@@ -1,3 +1,3 @@
-# DevelopingDataProducts
+##  DevelopingDataProducts
 
-## html Maps in 'gh-pages' branch
+### html Files/Maps are in the 'gh-pages' branch
