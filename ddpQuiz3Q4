@@ -1,0 +1,15 @@
+#'This function calculates the mean
+#'
+#'@param x is a numeric vector
+#'@return the mean of x
+#'@export
+#'@exampleses
+#' x <- 1:10
+#'createmean(x)
+
+createmean<-function(x){
+ answer<-mean(x)
+ return(answer)}
+
+x=1:188
+createmean(x)  
