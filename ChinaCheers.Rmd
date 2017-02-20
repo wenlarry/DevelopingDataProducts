@@ -1,0 +1,83 @@
+---
+title: "ChinaCheers"
+author: "wenlarry"
+date: "2/17/2017"
+output: html_document
+---
+#Preamble
+
+China's internal debt increased exponentially from about US$2.0T in 2010 to 
+US$3.5T in 2016, while GDP during this period grew only by 
+US$750Bn and US$1200Bn respectively. Such a massive debt induced growth over the past 2 decades is not impressive, and the trend continues. 
+
+Chart 1 (A basic Bubble Chart) displays this critical flaw in China's economy.
+
+Another weak indicator is the demography. The core population i.e. (25/54 yr/old population) has peaked at 675 m in 2016. This core population is the crucible of China's production and consumption growth in the decades ahead. Economic growth through domestic consumption will be a challenge.
+
+Chart 2 (A 3D Scatter Plot) displays all the 3 adverse indicators interactively. (Also, this augments the point that where 2 or more critical dependent variables are to be presented in 1 chart, the 3D chart is preferred over the mundane X/Y axis chart). 
+
+Regarding the demographic challenge and the debt overhang on China's growth, are these 'China Cheers' or 'China Tears' going forward ?
+
+
+Note: The 2 charts are constructed from 'plotly'.
+
+Citation: China's data are in Chris Hamilton's Econimica blog, published for the public on Feb 15, 2017.
+
+
+#Chart 1 (Debt fueling GDP growth) 
+
+
+##A basic Bubble Chart.
+
+
+```{r,echo=FALSE}
+suppressMessages(library(plotly))
+p<-plot_ly(
+x=c(250,400,2000,3500),
+y=c(200,250,750,1200),
+ type='scatter',mode= 'markers',   size=c(60,70,80,90), 
+ marker=list(color="violet"))%>% 
+ add_markers()%>% 
+ layout(title= 'China-Changes in Debt & GDP (1990 - 2006)',
+        xaxis=list(title = 'Debt US$ Bn'),
+        yaxis=list(title = 'GDP US$ Bn'))
+p
+ 
+```
+
+#Chart 2 (Headwinds of Debt and Demography on Growth) 
+
+##A 3D  Scatter Plot.
+
+
+```{r, echo=FALSE}
+suppressMessages(library(plotly))
+CorePop<-c(475,575,620,675)
+Debt   <-c(250,400,2000,3500) 
+GDP    <-c(200,250,750,1200)
+Year   <-c(1990,2000,2010,2016) 
+
+df<-data.frame(CorePop,Debt,GDP,Year,stringsAsFactors=FALSE) 
+
+p<-plot_ly(df,x=~Debt,y=~GDP,z=~CorePop,
+           marker=list(color=~CorePop,colorscale=
+           c("violet","orange"),showscale=TRUE))%>%
+add_markers()%>%
+ layout( title='China - Changes in Core Population, Debt, GDP -     (1990-2006) - US$',
+         
+         scene=list(xaxis=list(title='Debt_bn'),
+                   yaxis=list(title='GDP_bn'),
+                   zaxis=list(title='CorePop_m')),
+        
+  annotations=list( 
+   x=1.08,
+   y=1.03,
+   text= 'CorePop',
+   showarrow=FALSE)) 
+p
+```
+
+
+
+
+
