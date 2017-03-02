@@ -7,3 +7,6 @@
 ### ChinaCheers is Week 3 Assignment
 
 ### euBubblesRp is the Project
+
+
+https://wenlarry.shinyapps.io/euBubbles/ 
