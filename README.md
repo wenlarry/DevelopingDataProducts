@@ -6,7 +6,7 @@
 
 ### ChinaCheers is Week 3 Assignment
 
-### BrexitRp is the Project
+### Brexit is the Project
 
 
 https://wenlarry.shinyapps.io/brexit/
