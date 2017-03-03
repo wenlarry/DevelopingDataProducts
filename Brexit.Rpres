@@ -1,0 +1,116 @@
+Brexit
+========================================================
+wenlarry 
+March 2017
+
+font-family:'comic sans'
+
+Brexit Impact
+========================================================
+
+5 out of 28 EU nations have Purchasing Power Parity above US$1 T in 2014
+
+Rankings - Germany (DE), UK, France(FR), Italy (IT), and Spain (ES) 
+
+Purchasing Power Parity is a GDP measure
+
+Chart 
+
+    xaxis = PPP per capita
+    yaxis = Notional PPP (US$)
+
+Data Crunch 
+========================================================
+```{r, eval=FALSE}
+
+library(eurostat) 
+library(rvest)  
+library(dplyr) 
+
+```
+Extract the 'Gross domestic product dataset from R package 'Eurostat'
+
+Filter the required nations (geo) and Year using 'R Tools for Eurostat Data'
+
+'R Tools for Eurostat Data is in GITHUB depository 'rOpenGOV/eurostat'
+
+Use dplyr to further slice, select and rename to get the 2 PPP data in US$
+
+Construct a dataframe (PPP) from 3 vectors, 'nation', notional PPP ('ppp') and PPP per capita ('ppppc') 
+
+Use Plotly to plot from dataframe in Shiny's ui
+
+Dataframe Code
+========================================================
+From 'eurostat' download to 'PPP' dataframe
+
+```{r, eval=FALSE}
+id<- search_eurostat("Gross domestic product", type="dataset")$code[1]
+print(id) 
+dat<-get_eurostat("nama_10r_2gdp", time_format="num") 
+dat1<-get_eurostat("nama_10r_2gdp",filters=list(geo=c("EU28","DE","UK","FR","IT",
+                                                      "ES"),
+                                              
+                                   lastTimePeriod=1),type="label",
+                                   time_format="num")
+
+dat2<-slice(dat1,1:6) 
+dat3<-slice(dat1,19:24) %>%select(2:4) 
+dat4<-rename(dat3,USD=values) 
+# the dataframe
+nation<-c("EU28","DE","UK","FR","IT","ES") 
+ppp<-c(13959739,2795700,1933613,1937806,1604114,1163000)
+ppppc<-c(27500,34500,29900,29300,26400,27500) 
+
+PPP<-data.frame(nation,ppp,ppppc,stringsAsFactors = FALSE) 
+```
+
+Bubble Chart Code
+===============================
+A plotly Bubble Chart !
+
+```{r, eval= FALSE}
+# Shaping data from dataframe for chart
+slope <-8.666051223553066e-05 
+PPP$ppp<- sqrt(PPP$ppp* slope)
+colors <- c('red','green','blue','yellow','orange','violet')
+# Plot
+plot_ly(PPP,x=~ppppc,y=~ppp, color=~nation,size= ~ppppc, colors = colors, type='scatter',mode='markers',
+sizes= c(min(PPP$ppp), max(PPP$ppp)),
+marker = list(symbol = 'circle', sizemode = 'diameter',
+                      line = list(width = 2, color = '#FFFFFF')),
+        text = ~paste('nation:',nation , '<br>PPP:',ppp,'<br>PPP per cap:',                           ppppc))%>% 
+
+ layout(title = 'BREXIT',
+         xaxis = list(title = 'PPP per capita (USD)',
+                      gridcolor = 'rgb(255, 255, 255)',
+                      range = c(250,350),
+                      zerolinewidth = 1,
+                      ticklen = 5,
+                      gridwidth = 2),
+         yaxis = list(title = 'PPP (USD_M)',
+                      gridcolor = 'rgb(255, 255, 255)',
+                      range = c(1000,14000),
+                      zerolinewidth = 1,
+                      ticklen = 5,
+                      gridwith = 2))
+```
+Pitch
+============
+    Bubbles to Click !
+    
+Bubbles show nation, PPP and PPP per capita or other choices
+
+More color bubbles are possible (data dependent)
+
+Access databases to pull and massage required data eg Eurostat with its tool
+
+Plotly can provide interactive charts 
+
+Plug Charts into Shiny and Play
+
+
+
+
+
+
